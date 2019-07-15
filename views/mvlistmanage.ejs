@@ -1,0 +1,321 @@
+<% include header.ejs %>
+
+<div class="list-warpper container-fluid">
+
+<div class="top-hidden">
+    <ol class="breadcrumb" style="float:left;">
+    <li><a href="/">首页</a></li>
+    <li>电影列表</li>
+    <li class="active">电影管理</li>
+    </ol>
+    <a href="/" class="back">返回</a>
+</div>
+<hr>
+<form class="form-inline search-form">
+    <div class="form-group">
+      <label for="name">电影名称:</label>
+      <input type="text" value="<%= searchObj.title || '' %>" class="form-control" name="title" id="title" placeholder="请输入用户名(精确查找)">
+    </div>
+    <div class="form-group">
+      <label for="name">电影导演:</label>
+      <input type="text" value="<%= searchObj.doctor || '' %>" class="form-control" name="doctor" id="doctor" placeholder="请输入电影导演">
+    </div>
+    <div class="form-group">
+      <label for="name">电影语种:</label>
+      <input type="text" value="<%= searchObj.language || '' %>" class="form-control" name="language" id="language" placeholder="请输入电影语种">
+    </div>
+    <div class="form-group">
+      <label for="name">电影类型:</label>
+      <select class="form-control" style="width:160px" name="type" id="type">
+            <option disabled selected value>请选择影片类型</option>
+            <option value="悬疑">悬疑</option>
+            <option value="科幻">科幻</option>
+            <option value="动画">动画</option>
+            <option value="传记">传记</option>
+            <option value="爱情">爱情</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="isshow">前台显示</label>
+        <div class="form-control" style="border:none">
+            <input type="radio" value='' name="isshow" style="margin-right:5px" id="all">所有
+            <span style="margin-right:10px;"><input type="radio"  value=1 name="isshow" id="xs" style="margin-right:5px">显示</span>
+            <input type="radio" value=0 name="isshow" style="margin-right:5px" id="bxs">不显示
+        </div>
+    </div>
+ <button type="submit" class="btn btn-primary">查询</button>
+</form>
+
+<table class="table table-bordered managelist" style="margin-top:30px;">
+    <thead>
+      <tr>
+        <th>电影封面</th>
+        <th>电影名称</th>
+        <th>主要演员</th>
+        <th>上映年代</th>
+        <th>类型</th>
+        <th>是否显示</th>
+        <th>国家</th>
+        <th>语种</th>
+        <th>作者</th>
+        <th>收录时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+     <% if(mvlist.length > 0 ){  %>
+       <% mvlist.forEach(function(res){ %>
+        <tr>
+            <td style="text-align:center;">
+                <img src="<%= res.poster %>" width='80' height='120' alt="">
+            </td>
+            <td>
+             <span><%= res.title %></span>
+            </td>
+            <td>
+             <span><%= res.doctor %> </span>
+            </td>
+            <td>
+             <span><%= res.year %> </span>
+            </td>
+            <td><%= res.type || '暂无' %></td>
+            <td>
+                <% if(res.isshow) { %>
+                     <button class="btn btn-success">是</button>
+                <% } else { %>
+                     <button class="btn btn-warning">否</button>
+               <% } %>
+            </td>
+            <td><%= res.country %></td>
+            <td><%= res.language %></td>
+            <td><%= res.author %></td>
+            <td><%= myDateFormat(res.meta.createAt) %></td>
+            <td>
+                <a  class="btn btn-primary" href="/movie/detail/<%= res._id %>">查看详情</a>
+            </td>
+        </tr>
+        <% }) %> 
+    <% }else{  %>
+        <tr style="height:300px;text-align:center;"><td colspan="10" class="nodata">没有查询到相关数据</td></tr>
+    <% } %>
+        
+    </tbody>
+  </table>
+
+   <!-- 代码片段 分页控件 -->
+    <div class="span12">
+        <div style="float:right;overflow:hidden">
+            <ul id="page1" pageCount="<%=page.pageCount%>" pageNum="<%=page.num %>" pageSize="<%=page.size%>" pageLimit="<%=page.limit%>" numberOfPages="<%=page.numberOf%>">
+            </ul>
+        </div>
+    </div>
+
+   
+    <!--编辑信息弹框-->
+    <div>
+	    <div class="modal fade" id="updatemovieModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+                        电影信息
+					</h4>
+				</div>
+                <div id="msg" class="alert" role="alert" style="width:95%;margin:10px auto;display:none;"></div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+
+                        <input class="form-control" type="hidden" name="movie[_id]" value="" id="inputId">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputTitle">电影名称</label>
+							<div class="col-sm-10">
+								<input class="form-control" name="movie[title]" id="inputTitle" type="text" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputDoctor">电影导演</label>
+							<div class="col-sm-10">
+								<input class="form-control" name="movie[doctor]" id="inputDoctor" type="text" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputCountry">国家</label>
+							<div class="col-sm-10">
+								<input class="form-control" name="movie[country]" id="inputCountry" type="text" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputLanguage">语种</label>
+							<div class="col-sm-10">
+								<input class="form-control" name="movie[language]" id="inputLanguage" type="text" value="">
+							</div>
+						</div>
+                        <div class="form-group">
+							<label class="col-sm-2 control-label" for="inputLanguage">电影类型</label>
+							<div class="col-sm-10">
+								<select class="form-control typeselect" style="width:180px" name="type" id="type" autocomplete="off">
+                                    <option selected value="">请选择影片类型</option>
+                                    <option value="悬疑">悬疑</option>
+                                    <option value="科幻">科幻</option>
+                                    <option value="动画">动画</option>
+                                    <option value="传记">传记</option>
+                                    <option value="爱情">爱情</option>
+                                </select>
+							</div>
+						</div>
+                        <div class="form-group">
+							<label class="col-sm-2 control-label" for="inputLanguage">前台显示</label>
+                            <div class="col-sm-10" style="line-height:32px;">
+                                    <span style="margin-right:10px;"><input type="radio" checked value=1 name="movie[isshow]" style="margin-right:5px">显示</span>
+                                    <input type="radio" value=0 name="movie[isshow]" style="margin-right:5px">不显示
+                            </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputPoster">海报地址</label>
+							<div class="col-sm-10">
+								<input class="form-control" name="movie[poster]" id="inputPoster" type="text" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputFlash">片源地址</label>
+							<div class="col-sm-10">
+								<input class="form-control" name="movie[flash]" id="inputFlash" type="text" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputYear">上映年代</label>
+							<div class="col-sm-10">
+								<input class="form-control" name="movie[year]" id="inputYear" type="text" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputSummary">电影简介</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" name="movie[summary]" id="inputSummary" cols="30" rows="10"></textarea>
+							</div>
+						</div>
+					</form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="updateBtn">
+                        提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- 信息删除确认 -->
+        <div>
+            <div class="modal fade" id="delcfmModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                删除提示信息
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>您确认要删除吗？</p>
+                            <input class="form-control" type="hidden" value="" id="delId">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a  class="btn btn-success confirmdel" id="confirmdel" data-dismiss="modal">确定</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+   
+        </div>
+<% include footer.ejs %>
+
+<script>
+$(function(){
+
+        if($("#title").val()) {
+            $("#title").val($("#title").val().replace(/\//g,""));
+        }
+
+        if($("#doctor").val()) {
+            $("#doctor").val($("#doctor").val().replace(/\//g,""));
+        }
+
+        if($("#language").val()) {
+            $("#language").val($("#language").val().replace(/\//g,""));
+        }
+        var isshowval = "<%- searchObj.isshow %>" || "";
+        console.log(isshowval);
+        if(isshowval==""){
+            $("#all").attr("checked",true);
+            $("#bxs").attr("checked",false);
+            $("#xs").attr("checked",false);
+        } else {
+
+            if(isshowval==0){
+                $("#bxs").attr("checked",true);
+                $("#xs").attr("checked",false);
+                $("#all").attr("checked",false)
+            } else {
+                $("#xs").attr("checked",true);
+                $("#bxs").attr("checked",false);
+                $("#all").attr("checked",false)
+            }
+        }
+       
+
+        
+
+    //获得浏览器参数
+    $.extend({
+            getUrlVars: function(){
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for(var i = 0; i < hashes.length; i++){
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+            },
+            getUrlVar: function(name){
+                return $.getUrlVars()[name];
+            }
+        });
+
+    //封装浏览器参数
+    var composeUrlParams=function(){
+        var param='';
+        $.each($.getUrlVars(), function(i, item) {
+            if(item!='p'){
+                var val=$.getUrlVar(item);
+                
+                if(val) param += "&" + item+"="+val;
+            }
+        });
+        return param;
+    }
+    //分页功能
+    var page=$('#page1');
+    var options = {
+        bootstrapMajorVersion:3,
+        currentPage:page.attr('pageNum'),
+        totalPages:page.attr('pageCount'),
+        numberOfPages:page.attr('numberOfPages'),
+        pageUrl: function(type, page, current){
+            return "/movie/list/manage?"+composeUrlParams()+"&p="+page;
+        }
+    }
+   page.attr('pageCount')>1 && $('#page1').bootstrapPaginator(options);
+ 
+})
+</script>

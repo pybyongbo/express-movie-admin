@@ -1,0 +1,123 @@
+<% include header.ejs %>
+<h2><%- message %> <a href="/home" class="back">返回</a></h2>
+<hr>
+<form class="form-inline search-form" action="">
+  <div class="form-group">
+    <label for="name">电影名称</label>
+    <input type="text" class="form-control" name="title" id="name" placeholder="请输入电影名称(可模糊查询)">
+  </div>
+   <div class="form-group">
+    <label for="author">语言种类</label>
+    <input type="text" class="form-control" name="language" id="language" placeholder="请填写语言种类">
+  </div>
+  <div class="form-group">
+    <label for="author">主要演员</label>
+    <input type="text" class="form-control" name="doctor" id="doctor" placeholder="请填写主要演员">
+  </div>
+
+  <div class="form-group">
+      <label for="author">电影类型</label>
+      <select class="form-control typeselect" style="width:180px" name="type" id="type" autocomplete="off">
+          <option selected value="">请选择影片类型</option>
+          <option value="悬疑">悬疑</option>
+          <option value="科幻">科幻</option>
+          <option value="动画">动画</option>
+          <option value="传记">传记</option>
+          <option value="爱情">爱情</option>
+      </select>				
+  </div>
+ <button type="submit" class="btn btn-primary">点击查询</button>
+ <a href="/movie/add" class="addMovie btn btn-info" style="margin-left:180px">新增电影</a>
+
+ <a href="/movie/list/manage" class="addMovie btn btn-info">管理列表</a>
+</form>
+
+  <div style="width:100%;margin:0 auto;">
+      <div class="row">
+      <% if(mvlist.length > 0 ){  %>
+       <% mvlist.forEach(function(res){ %>
+          <div class="col-md-2">
+              <div class="thumbnail">
+                <a href="/movie/detail/<%- res._id %>">
+                  <img src="<%- res.poster %>" alt="" style="height:220px;width:100%">
+                </a>
+                <div class="caption">
+                    <h3>
+                      <%- res.title %>
+                      <p class="language">电影类型:<strong><%- res.type || '暂无' %></strong></p>
+                    </h3>
+                    <p class="info"><span class="fl">主要演员: <%- res.doctor %></span> <span class="fr">语种:<%- res.language %></span></p>
+                    <div class="desc">
+                        <p title="<%- res.summary %>"><strong>电影简介:</strong><%- summaryDesc(res.summary,50) %></p>
+                    </div>
+                    <p>
+                      <a href="/movie/detail/<%- res._id %>" role="button" class="btn btn-primary" target="_blank">观看预告片</a>
+                      
+                    </p>
+                  </div>
+              </div>
+          </div>
+      <% }) %> 
+    <% }else{  %>
+        <div class="nodata">没有查询到相关数据</div>
+    <% } %>
+      </div>
+  </div>
+
+    <!-- 代码片段 分页控件 -->
+    <div class="span12">
+        <div style="float:right;overflow:hidden">
+            <ul id="page1" pageCount="<%=page.pageCount%>" pageNum="<%=page.num %>" pageSize="<%=page.size%>" pageLimit="<%=page.limit%>" numberOfPages="<%=page.numberOf%>">
+            </ul>
+        </div>
+    </div>
+
+<% include footer.ejs %>
+
+ <script>
+$(function(){
+
+ //获得浏览器参数
+    $.extend({
+            getUrlVars: function(){
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for(var i = 0; i < hashes.length; i++){
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+            },
+            getUrlVar: function(name){
+                return $.getUrlVars()[name];
+            }
+        });
+
+    //封装浏览器参数
+    var composeUrlParams=function(){
+        var param='';
+        $.each($.getUrlVars(), function(i, item) {
+            if(item!='p'){
+                var val=$.getUrlVar(item);
+                if(val) param += "&" + item+"="+val;
+            }
+        });
+        return param;
+    }
+    //分页功能
+    var page=$('#page1');
+    var options = {
+        bootstrapMajorVersion:3,
+        currentPage:page.attr('pageNum'),
+        totalPages:page.attr('pageCount'),
+        numberOfPages:page.attr('numberOfPages'),
+        pageUrl: function(type, page, current){
+            console.log(composeUrlParams());
+            return "/movie/list?"+composeUrlParams()+"&p="+page;
+        }
+    }
+   page.attr('pageCount')>1 && $('#page1').bootstrapPaginator(options);
+ 
+})
+</script>

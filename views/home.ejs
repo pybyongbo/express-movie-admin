@@ -1,0 +1,47 @@
+<% include header.ejs %>
+  <h1>Your name: <%= user.username %></h1>
+    <p>Welcome to your home ~</p>
+    
+    <hr>
+  
+    <% include usernav_left.ejs %>
+    <div class="rightcontent pull-left" style="width:80%">
+
+        <h3 style="margin-bottom:35px;">基本信息</h3>
+        <table class="table table-bordered table-striped" >
+      <colgroup>
+        <col style="width:20%">
+        <col width="80%">
+      </colgroup>
+      <tbody>
+        <tr>
+          <th scope="row">
+            <code>用户名</code>
+          </th>
+          <td><%= user.username %></td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <code>注册邮箱</code>
+          </th>
+          <td><%- userinfo.email %></td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <code>注册日期</code>
+          </th>
+          <td><%- myDateFormat(userinfo.create_date) %></td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    
+    </div>
+    
+
+
+    
+    
+    
+<% include footer.ejs %>

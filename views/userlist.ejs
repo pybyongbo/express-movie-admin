@@ -1,0 +1,102 @@
+<% include header.ejs %>
+
+<div class="list-warpper container-fluid">
+
+<div class="top-hidden">
+<ol class="breadcrumb" style="float:left;">
+  <li><a href="/">首页</a></li>
+  <li class="active">会员列表</li>
+</ol>
+<a href="/" class="back">返回</a>
+</div>
+ 
+
+
+<hr>
+<form class="form-inline search-form" action="">
+    <div class="form-group">
+      <label for="name">用户名:</label>
+      <input type="text" class="form-control" name="username" id="name" placeholder="请输入用户名(精确查找)">
+    </div>
+ <button type="submit" class="btn btn-primary">查询</button>
+</form>
+
+<table class="table table-bordered" style="margin-top:30px;">
+    <thead>
+      <tr>
+        <th>用户名</th>
+        <th>邮箱</th>
+        <th>注册时间</th>
+      </tr>
+    </thead>
+    <tbody>
+     <% if(users.length > 0 ){  %>
+          <% users.forEach(function(res){ %>
+              <tr>
+                  <td><%- res.username %></td>
+                  <td><%- res.email %></td>
+                  <td><%- myDateFormat(res.create_date) %></td>
+              </tr>
+          <% }) %> 
+     <% }else{  %>
+        <tr style="height:300px;text-align:center;"><td colspan="3" class="nodata">没有查询到相关数据</td></tr>
+    <% } %>
+    </tbody>
+  </table>
+
+   <!-- 代码片段 分页控件 -->
+    <div class="span12">
+        <div style="float:right;overflow:hidden">
+            <ul id="page1" pageCount="<%=page.pageCount%>" pageNum="<%=page.num %>" pageSize="<%=page.size%>" pageLimit="<%=page.limit%>" numberOfPages="<%=page.numberOf%>">
+            </ul>
+        </div>
+    </div>
+
+</div>
+<% include footer.ejs %>
+
+<script>
+$(function(){
+
+ //获得浏览器参数
+    $.extend({
+            getUrlVars: function(){
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for(var i = 0; i < hashes.length; i++){
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+            },
+            getUrlVar: function(name){
+                return $.getUrlVars()[name];
+            }
+        });
+
+    //封装浏览器参数
+    var composeUrlParams=function(){
+        var param='';
+        $.each($.getUrlVars(), function(i, item) {
+            if(item!='p'){
+                var val=$.getUrlVar(item);
+                if(val) param += "&" + item+"="+val;
+            }
+        });
+        return param;
+    }
+    //分页功能
+    var page=$('#page1');
+    var options = {
+        bootstrapMajorVersion:3,
+        currentPage:page.attr('pageNum'),
+        totalPages:page.attr('pageCount'),
+        numberOfPages:page.attr('numberOfPages'),
+        pageUrl: function(type, page, current){
+            return "/user/list?"+composeUrlParams()+"&p="+page;
+        }
+    }
+   page.attr('pageCount')>1 && $('#page1').bootstrapPaginator(options);
+})
+</script>

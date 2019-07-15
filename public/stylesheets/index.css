@@ -1,0 +1,133 @@
+
+.regform,.loginform{
+    clear: both;
+    margin-top:50px;
+}
+
+a.back{
+    margin-left:30px;
+    font-size:14px;
+    float:right;
+    margin-top:10px;
+}
+
+.container-fluid a.back{
+    float:right;
+}
+
+p.tips{
+    margin-top:20px;
+    text-align:right;
+}
+
+#c_save{
+    margin-top:20px;
+}
+
+.search-form{
+    margin:30px auto;
+}
+
+td.nodata{
+    line-height:300px;
+}
+
+.caption{
+    overflow: hidden;
+}
+.caption h3{
+    font-size:20px;
+    font-style: normal;
+}
+.caption h3 p.language{
+    font-size:14px;
+    float:right;
+    line-height:25px;
+    margin-top:0;
+}
+
+.caption p.info{
+    overflow: hidden;
+    width:100%;
+}
+
+.caption p.info .fl{
+    float: left;
+}
+.caption p.info .fr{
+    float:right;
+}
+
+.caption p a{
+    margin-top:10px;
+}
+
+.desc{
+    height:40px;
+}
+
+.nodata{
+
+    border:1px solid #dedede;
+    border-radius: 5px;
+    height:650px;
+    padding-top:480px!important;
+    text-align: center;
+    background:url(../images/nodata.png) no-repeat 48% 40%;
+}
+.managelist tr th{
+    text-align: center
+}
+.managelist tr td{
+    text-align: center;
+    line-height:120px!important;
+}
+
+#btnSub{
+    margin-left:20px;
+}
+
+.main {
+    overflow:hidden;
+    width: 100%;
+    padding:10px 20px;
+    background-color: #f8f8f8;
+}
+
+.main nav{
+    margin:0 auto;
+    width:1040px;
+}
+
+.top-hidden{
+    overflow: hidden;
+}
+.top-hidden .breadcrumb{
+    float:left;
+    margin-bottom:0;
+}
+.sidebar{
+    width:200px;
+    float:left;
+    margin-top: 30px;
+    margin-right:10px;
+}
+.modfiy{
+    width:680px;
+}
+
+p span.author{
+    float:right;
+    margin-top:18px;
+}
+
+
+.managemvlist tr th{
+    line-height: 30px;
+    text-align: center;
+}
+
+.managemvlist tr td{
+    text-align: center;
+    line-height:30px!important;
+}

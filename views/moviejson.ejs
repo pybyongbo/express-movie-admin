@@ -1,0 +1,27 @@
+<% include header.ejs %>
+  <div class="list-warpper container-fluid" >
+	<div class="top-hidden">
+		<ol class="breadcrumb" style="float:left;">
+		<li><a href="/">首页</a></li>
+		<li class="active">json文件提交</li>
+		</ol>
+		<a href="/" class="back">返回</a>
+	</div>
+	<hr>
+	<div class="container-fluid">
+		<h2><%- label %></h2>
+		<div class="row-fluid">
+			<div class="span8">
+				<div id="msg"></div>
+				<form style="width:680px;margin:50px auto;">
+					<fieldset>
+						<textarea id="c_editor"  name="c_editor" class="span12 form-control" rows="10" cols="20"></textarea>
+						<button id="c_save" type="button" class="btn btn-primary">保存提交</button>
+					</fieldset>
+				<form>
+			</div>
+		</div>
+	</div>
+
+</div>
+<% include footer.ejs %>

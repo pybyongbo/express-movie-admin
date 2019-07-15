@@ -1,0 +1,258 @@
+<% include header.ejs %>
+
+ <div class="list-warpper container-fluid" >
+  <div class="top-hidden">
+  <ol class="breadcrumb">
+  <li><a href="/">首页</a></li>
+  <li><a href="/movie/list/manage">电影管理</a></li>
+  <li class="active">新增电影</li>
+</ol>
+<a href="/" class="back">返回</a>
+</div>
+<hr>
+ <h2><%- label %></h2>
+<div id="msg" class="alert" style="display:none" role="alert"></div>
+<form style="width:80%;margin:50px auto" class="form-horizontal" enctype='multipart/form-data' method='post' action='javascript:;' style="width:60%;margin:0 auto;float:left;" enctype='multipart/form-data' id="frmUploadFile">
+        
+        <input type="hidden" name="movie[author]" value="<%- user.username %>" id="author">
+        <input type="hidden" name="movie[_id]" value="" id="inputId">
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputTitle">电影名称</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="movie[title]" id="inputTitle" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputDoctor">电影导演</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="movie[doctor]" id="inputDoctor" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputCountry">国家</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="movie[country]" id="inputCountry" type="text" value="">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputLanguage">语种</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="movie[language]" id="inputLanguage" type="text" value="">
+            </div>
+        </div>
+
+         <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputLanguage">影片类型</label>
+            <div class="col-sm-10">
+                <select class="form-control" style="width:180px" name="type" id="type">
+                    <option disabled selected value>请选择影片类型</option>
+                     <option value="悬疑">悬疑</option>
+                     <option value="科幻">科幻</option>
+                     <option value="动画">动画</option>
+                     <option value="传记">传记</option>
+                     <option value="爱情">爱情</option>
+                </select>
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputLanguage">前台显示</label>
+            <div class="col-sm-10" style="line-height:32px;">
+                    <span style="margin-right:10px;">显示<input type="radio" checked value=1 name="movie[isshow]"></span>
+                    不显示<input type="radio" value=0 name="movie[isshow]">
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="fulAvatar">海报地址</label>
+            <div class="col-sm-10">
+            
+            <input class="form-control" name="movie[poster]" id="inputPoster" type="hidden" value="">
+            <img src="" width="76" height="76" style="display:none;" class="uppic" alt="">
+
+            <input id="fulAvatar" name="fulAvatar" type="file" class="btn btn-default" style="width:180px;float:left;margin-right:10px;"/>  
+           
+            <button id="btnSub" class="btn  btn-primary" type="button" >上 传</button> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputFlash">片源地址</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="movie[flash]" id="inputFlash" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputYear">上映年代</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="movie[year]" id="inputYear" type="text" value="">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label" for="inputSummary">电影简介</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" name="movie[summary]" id="inputSummary" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-2 col-sm-8">
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="btn_save">录入</button>
+        </div>
+</form>
+
+</div>
+<% include footer.ejs %>
+<script>
+$(function(){
+        function checkInput(tipText,type){
+            $('#msg').html(tipText).addClass('alert alert-'+type).show();
+            $("#msg").fadeTo(2000, 500).slideUp(500, function(){
+                $("#msg").hide();
+            });
+        }
+
+        //图片上传点击事件
+         $('#btnSub').on('click',function(){    
+                var fulAvatarVal = $('#fulAvatar').val();
+
+                if(fulAvatarVal.length == 0)
+                {
+     
+                    $('#msg').html('请选择要上传的文件!').show();
+					$('#msg').addClass('alert alert-warning'); 
+                    $("#msg").fadeTo(2000, 500).slideUp(500, function(){
+                        $("#msg").hide();
+                    });                        
+                    return false;
+                }
+
+            var extName = fulAvatarVal.substring(fulAvatarVal.lastIndexOf('.'),fulAvatarVal.length).toLowerCase();
+                if(extName != '.png' && extName != '.jpg'){
+                 $('#msg').html('只支持png和jpg格式图片').show(); 
+                 $('#msg').addClass('alert alert-warning'); 
+                 $("#msg").fadeTo(2000, 500).slideUp(500, function(){
+                    $("#msg").hide();
+                 });                              
+                return false;                
+                }
+                
+                var formData = new FormData($("#frmUploadFile")[0]);
+                $.ajax({
+                    type: "POST",
+                    url: '/movie/uploadfile',
+                    data:formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data, textStatus){
+                        $("#inputPoster").val(data.fullPath);
+                        $("#fulAvatar").hide();
+                        $(".uppic").attr({'src':data.fullPath}).show();
+                        $('#msg').html('上传成功!').show();
+						$('#msg').addClass('alert alert-success');
+                        $("#msg").fadeTo(2000, 500).slideUp(500, function(){
+							$("#msg").hide();
+						});
+						
+                    }
+                })              
+           
+        });
+
+    $('#btn_save').on('click',function(event){
+
+        if($("#inputTitle").val()==''){
+            checkInput('电影名称不得为空!','warning')
+            return;
+        }
+
+        if($("#inputDoctor").val()==''){
+            checkInput('电影导演不得为空!','warning')
+            return;
+        }
+
+        if($("#inputCountry").val()==''){
+            checkInput('国家不得为空!','warning')
+            return;
+        }
+
+        if($("#inputLanguage").val()==''){
+            checkInput('语种不得为空!','warning')
+            return;
+        }
+
+        if($("#type option:selected").val()==''){
+            checkInput('请选择电影类型!','warning')
+            return;
+        }
+
+        if($('#inputPoster').val()==''){
+            checkInput('海报地址不得为空!','warning')
+            return;
+        }
+
+        if($("#inputFlash").val()==''){
+            checkInput('片源地址不得为空!','warning')
+            return;
+        }
+
+        if($("#inputYear").val()==''){
+            checkInput('上映年代不得为空!','warning')
+            return;
+        }
+
+        if($("#inputSummary").val()==''){
+            checkInput('电影简介不得为空!','warning')
+            return;
+        }
+
+        
+
+        var mdata = {
+            author:$("#author").val(),
+            title:$("#inputTitle").val(),
+            doctor:$("#inputDoctor").val(),
+            country:$("#inputCountry").val(),
+            language:$("#inputLanguage").val(),
+            type:$("#type option:selected").val(),
+            isshow:$("input[type='radio']:checked").val(),
+            poster:$("#inputPoster").val(),
+            flash:$("#inputFlash").val(),
+            year:parseInt($("#inputYear").val()),
+            summary:$("#inputSummary").val()
+        }
+			var data = {};
+            data['movie'] = mdata;
+
+            console.log(data);
+			
+			$.ajax({
+			  type: "POST",
+			  url: '/movie/add/new',
+			  data:data,
+			  success: function (data, textStatus){
+		
+			  	  if(data.success){
+			  	  	    $('#msg').html('成功保存!').show();
+						$('#msg').addClass('alert alert-success');
+						setTimeout(function(){
+                            $(location).attr('href','/');
+						},1000);
+			  	  	
+			  	  } else {
+			  	  	$('#msg').html(data.message).show();
+			  	  	$('#msg').addClass('alert alert-error');
+			  	  }
+			  }
+			});
+		});
+
+
+})
+
+
+</script>
