@@ -64,6 +64,13 @@ app.use(function(req,res,next){
 // app.use('/logout',indexRouter);
 
 app.get('/',indexRouter.getList);
+
+//测试路由
+app.get('/test',indexRouter.mytest);
+
+
+app.get('/getYzm',indexRouter.getYzm);
+
 app.get('/user/login',indexRouter.login);
 app.use('/user/register',indexRouter.register);
 // app.use('/user/home',indexRouter.usercenter);

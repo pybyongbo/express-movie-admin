@@ -1,17 +1,106 @@
 <% include header.ejs %>
-<h2><%- message %> <a href="/home" class="back">返回</a></h2>
+<h2><%- message %> <a href="/" class="back">返回</a></h2>
 <hr>
 
 
-  <div style="container">
-      <div class="row">
-            <h1><%- id %></h1>
-      </div>
-  </div>
+ <div class="container">
+	<div class="row">
+		<div class="col-md-7">
+			<video height="400" width="100%" controls="" autoplay="">
+			<source src="<%- mvdetailObj.flash %>" type="video/mp4">
+      </video>
+			<div class="card">
+				<div class="card-header">
+					<h5>评论区</h5>
+				</div>
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item list-group-item-action list-group-item-warning">
+						<div class="d-flex w-100">
+                <span class="text-info">&nbsp;&nbsp; </span>
+                <h4 class="text-success">test</h4>
+						</div>
+						<hr>
+						<h5 class="mb-1">沙发！！！</h5>
+						</li>
+					</ul>
+				
+					<ul class="list-group">
+						<li class="list-group-item list-group-item-action list-group-item-warning">
+						<div class="d-flex w-100">
+                <span class="text-info">&nbsp;&nbsp; </span>
+                <h4 class="text-success">test</h4>
+						</div>
+						<hr>
+						<h5 class="mb-1">海王大闹龙宫</h5>
+						</li>
+					</ul>
+					<div class="col-12">
+						&nbsp;
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item list-group-item-action list-group-item-warning">
+						<div class="d-flex w-100">
+						
+              <span class="text-info">&nbsp;&nbsp; </span>
+							<h4 class="text-success">test</h4>
+						</div>
+						<hr>
+						<h5 class="mb-1">策划第五大道</h5>
+						</li>
+					</ul>
+					<div class="col-12">
+						&nbsp;
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item list-group-item-action list-group-item-warning">
+						<div class="d-flex w-100">
+              <span class="text-info">&nbsp;&nbsp; </span>
+							<h4 class="text-success">ryan</h4>
+						</div>
+						<hr>
+						<h5 class="mb-1">df</h5>
+						</li>
+					</ul>
+					<div class="col-12">
+						&nbsp;
+					</div>
+				</div>
+				<hr>
+			</div>
+			
+		</div>
+		<div class="col-md-5">
+			<dl class="dl-horizontal">
+				<dt>电影名字</dt>
+				<dd><%- mvdetailObj.title %></dd>
+				<dt>导演</dt>
+				<dd><%- mvdetailObj.doctor %> </dd>
+				<dt>国家</dt>
+				<dd><%- mvdetailObj.country %></dd>
+				<dt>上映年份</dt>
+				<dd><%- mvdetailObj.year %></dd>
+				<dt>语言</dt>
+				<dd><%- mvdetailObj.language %></dd>
+				<dt>简介</dt>
+				<dd>
+        <%- mvdetailObj.summary %>
+        </dd>
+			</dl>
+		</div>
+	</div>
+
+</div>
 
 
 
 <% include footer.ejs %>
+
+<style>
+.dl-horizontal dt,.dl-horizontal dd{
+  line-height:36px;
+}
+</style>
 
 <script>
 

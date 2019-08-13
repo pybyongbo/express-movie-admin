@@ -99,7 +99,7 @@
                       <%- res.title %>
                       <p class="language">电影类型:<strong><%- res.type || '暂无' %></strong></p>
                     </h3>
-                    <p class="info"><span class="fl">主要演员: <%- summaryDesc(res.doctor,4) %></span><span class="fl" style="margin-left:50px;">上映年代: <%- res.year %></span> <span class="fr">语种:<%- res.language %></span></p>
+                    <p class="info"><span class="fl">主要演员: <%- summaryDesc(res.doctor,10) %></span><span class="fl" style="margin-left:50px;">上映年代: <%- res.year %></span> <span class="fr">语种:<%- res.language %></span></p>
                     <div class="desc">
                         <p title="<%- res.summary %>"><strong>电影简介:</strong><%- summaryDesc(res.summary,50) %></p>
                     </div>

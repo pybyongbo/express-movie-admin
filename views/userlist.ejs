@@ -18,6 +18,27 @@
       <label for="name">用户名:</label>
       <input type="text" class="form-control" name="username" id="name" placeholder="请输入用户名(精确查找)">
     </div>
+
+    <div class="form-group">
+      <label for="name">邮箱:</label>
+      <input type="text" class="form-control" name="email" id="email" placeholder="请输入邮箱地址">
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <label class="input-group-addon">开始时间</label>
+            <input type="text" class="form-control" data-datetime-picker="YYYY-MM-DD" id="datetime-start" name="start_date">
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+
+            <span class="input-group-addon">结束时间</span>
+            <input type="text" class="form-control" data-datetime-picker="YYYY-MM-DD" id="datetime-stop" name="end_date">
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+        </div>
+    </div>
  <button type="submit" class="btn btn-primary">查询</button>
 </form>
 
@@ -54,9 +75,21 @@
 
 </div>
 <% include footer.ejs %>
-
+<link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script src="/javascripts/bootstrap-datetimepicker.js"></script>
 <script>
 $(function(){
+
+$('[data-datetime-picker]').each(function() {
+  var $this   = $(this)
+  var format  = $this.attr('data-datetime-picker')
+
+  $this.datetimepicker({
+      locale: 'zh-CN'
+    , format: format
+  })
+})
 
  //获得浏览器参数
     $.extend({

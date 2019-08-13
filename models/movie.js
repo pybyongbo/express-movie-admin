@@ -50,11 +50,8 @@ MovieDAO.prototype.save = function(obj, callback) {
   });
 };
 
-// MovieDAO.prototype.find = function(obj, callback) {
-//   Movie.find({},function(err,obj){
-//     callback(err,obj)
-//   })
-// };
+
+
 
 MovieDAO.prototype.findPagination = function(obj,callback) {
   var q=obj.search||{}

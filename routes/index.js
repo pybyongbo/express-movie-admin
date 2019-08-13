@@ -6,6 +6,16 @@ var utilFun = require('../util/index.js');
 
 const User = require('./../models/user');
 
+exports.mytest = function(req,res){
+
+  return res.render('mytest', {
+      title:'一些测试|moive.me',
+      message:'测试页面',
+      str:"<h1>我是测试文件</h1>"
+  });
+
+}
+
 // 登录成功
 // router.route('/').get(function(req, res) {
 
@@ -130,6 +140,36 @@ exports.userlogout = function(req,res){
     req.session.user=null;
     req.session.error = null;
     res.redirect("/");	
+}
+
+exports.getYzm = async function(req,res){
+	const fs = require("fs");
+	const captcha = require('trek-captcha');
+	const { token, buffer } = await captcha({ size: 5 ,style:-1});
+	let getYzm = false;
+	getYzm = await new Promise((reslove, reject) => {
+		fs.createWriteStream('./public/images/yzm.png')
+		.on('finish', data => {
+			reslove(true);
+		})
+		.end(buffer);
+	});
+	if (getYzm) {
+		res.send({
+			code: 200,
+			data: token,
+			message: '获取验证码成功',
+			});
+
+	} else {
+		res.send({
+			code: 500,
+			data: token,
+			message: '获取验证码失败',
+			});
+		
+	}
+
 }
 
 // router.route('/user/list').get(function(req,res){

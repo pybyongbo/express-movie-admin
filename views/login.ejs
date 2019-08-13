@@ -15,9 +15,15 @@
                             <input type="password" name="password" id="password" class="form-control" placeholder="请输入密码" />
                         </div>
 
+						<div class="form-group mt20">
+                            <input type="text" name="yzm_code" id="yzm_code" class="form-control" placeholder="请输入验证码" style="width:132px;float:left;"/>
+							<img src="../images/yzm.png" alt="" id="yzmcode">
+							<a href="javascript:void(0);" class="changeyzm">点击更换</a>
+                        </div>
+
                         <button class="btn btn-primary btn-lg btn-block" id="login">登录</button>
 
-                        <p class="noreg tips">还没有账号?去 <a href="/user/register">注册</a></p>
+                        <p class="noreg tips" >还没有账号?去 <a href="/user/register">注册</a></p>
                     </div>
                 </div>
             </div>
@@ -27,6 +33,23 @@
     <% include footer.ejs %>
 	<script type="text/javascript" >
 		$(function(){
+
+		//验证码图片,点击切换	
+		initVerify();
+		function initVerify(){
+				$.ajax({
+				url: "/getYzm",
+				type: "GET",
+				cache: false,
+				success: function (msg) {
+					$("#yzmcode").attr({src:'../images/yzm.png?v='+ (new Date).getTime(),title:msg.data})
+				}
+				})
+			}
+		
+			$("#yzmcode,.changeyzm").on('click',function(){
+				initVerify()
+			})
 			
 			$('#login').click(function(){
 				var username=$('#username').val();
@@ -43,6 +66,15 @@
 					});
 				}
 				else {
+					if($("#yzm_code").val()!=$("#yzmcode").attr("title")) {
+						$('#msg').html('验证码不正确');
+						$('#msg').addClass('alert alert-warning alert-error');
+						$("#msg").fadeTo(2000, 500).slideUp(500, function(){
+							$("#msg").hide();
+						});
+						initVerify();
+						return;
+					}
 					
 					$.ajax({
 						url:'/login',
@@ -70,6 +102,7 @@
 								$("#msg").fadeTo(2000, 500).slideUp(500, function(){
 									$("#msg").hide();
 								});
+								initVerify();
 							}
 						},
 						error:function(data,err){

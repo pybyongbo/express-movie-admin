@@ -1,7 +1,6 @@
 <% include header.ejs %>
   <h1>Your name: <%= user.username %></h1>
     <p>Welcome to your home ~</p>
-    
     <hr>
     <% include usernav_left.ejs %>
     <div class="rightcontent pull-left" style="width:80%">
@@ -67,7 +66,7 @@
                 </tr>
                 <% }) %> 
             <% }else{  %>
-                <tr style="height:300px;text-align:center;"><td colspan="8" class="nodata">没有查询到相关数据</td></tr>
+                <tr style="height:300px;text-align:center;"><td colspan="9" class="nodata">没有查询到相关数据</td></tr>
             <% } %>
             </tbody>
         </table>

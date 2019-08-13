@@ -45,13 +45,23 @@
          <div class="form-group">
             <label class="col-sm-1 control-label" for="inputLanguage">影片类型</label>
             <div class="col-sm-10">
-                <select class="form-control" style="width:180px" name="type" id="type">
-                    <option disabled selected value>请选择影片类型</option>
-                     <option value="悬疑">悬疑</option>
-                     <option value="科幻">科幻</option>
-                     <option value="动画">动画</option>
-                     <option value="传记">传记</option>
-                     <option value="爱情">爱情</option>
+                <!--
+                    <select class="form-control" style="width:180px" name="type" id="type">
+                        <option disabled selected value>请选择影片类型</option>
+                        <option value="悬疑">悬疑</option>
+                        <option value="科幻">科幻</option>
+                        <option value="动画">动画</option>
+                        <option value="传记">传记</option>
+                        <option value="爱情">爱情</option>
+                    </select>
+                -->
+                <select name="type" id="type" class="selectpicker show-tick" data-size="5" value="">
+                    <option></option>
+                    <option>悬疑</option>
+                    <option>科幻</option>
+                    <option>动画</option>
+                    <option>传记</option>
+                    <option>爱情</option>
                 </select>
             </div>
             
@@ -107,6 +117,11 @@
 <% include footer.ejs %>
 <script>
 $(function(){
+
+    //下拉菜单
+        $('.selectpicker').selectpicker({noneSelectedText:'请选择'});
+        $('.selectpicker').selectpicker('val',$('.selectpicker').attr('value'));
+
         function checkInput(tipText,type){
             $('#msg').html(tipText).addClass('alert alert-'+type).show();
             $("#msg").fadeTo(2000, 500).slideUp(500, function(){
@@ -210,15 +225,13 @@ $(function(){
             return;
         }
 
-        
-
         var mdata = {
             author:$("#author").val(),
             title:$("#inputTitle").val(),
             doctor:$("#inputDoctor").val(),
             country:$("#inputCountry").val(),
             language:$("#inputLanguage").val(),
-            type:$("#type option:selected").val(),
+            type:$('.selectpicker').val(),
             isshow:$("input[type='radio']:checked").val(),
             poster:$("#inputPoster").val(),
             flash:$("#inputFlash").val(),
@@ -227,8 +240,6 @@ $(function(){
         }
 			var data = {};
             data['movie'] = mdata;
-
-            console.log(data);
 			
 			$.ajax({
 			  type: "POST",

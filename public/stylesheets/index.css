@@ -121,7 +121,6 @@ p span.author{
     margin-top:18px;
 }
 
-
 .managemvlist tr th{
     line-height: 30px;
     text-align: center;
@@ -130,4 +129,18 @@ p span.author{
 .managemvlist tr td{
     text-align: center;
     line-height:30px!important;
+}
+#yzmcode{
+    float:left;
+    cursor: pointer;
+    margin-top:-30px;
+}
+
+.mt20{
+    margin-top:30px;
+    margin-bottom:30px;
+}
+a.changeyzm{
+    text-decoration: none;
+    line-height: 26px;
 }

@@ -74,6 +74,12 @@ MovienewDAO.prototype.deleteOne = function(obj,callback){
 }
 
 
+MovienewDAO.prototype.findMovie = function(mvobj, callback) {
+  Movienew.findOne(mvobj,function(err,obj){
+    callback(err,obj)
+  })
+};
+
 MovienewDAO.prototype.findPagination = function(obj,callback) {
   var q=obj.search||{}
   var col=obj.columns;

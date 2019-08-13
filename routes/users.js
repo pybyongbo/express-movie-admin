@@ -4,6 +4,7 @@ var router = express.Router();
 const User = require('./../models/user');
 const _Movieadd = require('./../models/movienew.js');
 const md5 = require("md5");
+var moment = require('moment');
 
 exports.doUserAdd = function(req, res) {
 
@@ -104,23 +105,36 @@ exports.finduserlist = function(req,res){
         //search['username']=new RegExp(req.query.username);//模糊查询参数
     }
 
+    if(req.query.email){
+      search['email'] = req.query.email; //这种只能够精确查询
+    }
+
+    //注册日期期间查询
+    if(req.query.start_date && req.query.end_date){
+      search['create_date']={$gte:moment(req.query.start_date).toISOString(),$lte:moment(req.query.end_date).toISOString()}; //这种只能够精确查询
+    }
+
     var model =  {
         search:search,
         columns:'username email create_date',
         page:page
     }
+    console.log(model.search)
 
     User.findPagination(model,function(err,pageCount,list){
+      if(list){
         page['pageCount']=pageCount;
         page['size']=list.length;
         page['numberOf']=pageCount>5?5:pageCount;
 
         return res.render('userlist', {
-                title:'会员列表页面||express',
-                message:'会员列表页面',
-                users:list,
-                page:page
+              title:'会员列表页面||express',
+              message:'会员列表页面',
+              users:list,
+              page:page
         });
+      }
+       
 
     })
 

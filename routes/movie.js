@@ -198,11 +198,21 @@ exports.movielist = function(req,res){
 
 exports.moviedetail = function(req,res){
 
-    return res.render('mvdetail',{
-        title:'电影详情|电影|moive.me',
-        message:'电影详情页面',
-        id:req.params.id
-    });
+    var id=req.params.id;
+
+    _Movieadd.findMovie({_id:id},function(err,result){
+
+        // console.log(result);
+        return res.render('mvdetail',{
+            title:'电影详情|电影|moive.me',
+            message:'电影详情页面',
+            // id:req.params.id
+            mvdetailObj:result
+        });
+
+    })
+
+    
 
 
 }
