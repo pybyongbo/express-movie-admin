@@ -6,7 +6,7 @@ express+nodejs+mongodb (欢迎 star)
 
 ### 访问地址:
 
-[**imooc-movie-admin**](http://movieadmin.901web.com/)
+[http://movieadmin.901web.com/](http://movieadmin.901web.com/)
 
 ### 主要实现的功能如下:
 
