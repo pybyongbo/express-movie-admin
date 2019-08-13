@@ -80,13 +80,9 @@ exports.doMovieUpload = function(req,res){
         if (err) {
             console.log('parse error: ' + err);
         } else {
-            // var inputFile = files[0];
             var inputFile = files.fulAvatar[0];
-    
             var uploadedPath = inputFile.path;
-     
             var dstPath = './public/upload/' + inputFile.originalFilename;
-
             var paths = "http://localhost:4500/upload/" + inputFile.originalFilename;
 
             //重命名为真实文件名
