@@ -20,7 +20,7 @@
     "mongoose-auto-increment": "^5.0.1",
     "morgan": "~1.9.1",
     "multiparty": "^4.2.1",
-    "underscore": "^1.8.3",
+    "underscore": "^1.12.1",
     "trek-captcha": "^0.4.0"
   }
 }
